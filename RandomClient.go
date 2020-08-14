@@ -2,37 +2,32 @@ package main
 
 import (
 	"bufio"
-	"crypto/aes"
-	"crypto/cipher"
 	"crypto/rand"
+	"crypto/rsa"
+	"crypto/sha256"
+	"encoding/base64"
 	"encoding/binary"
+	"encoding/json"
 	"fmt"
-	"io"
 	"net"
 	"os"
 	"regexp"
 	"strings"
 
 	"github.com/smallnest/goframe"
-
-	"github.com/monnand/dhkx"
 )
 
 var delimiter = regexp.MustCompile(`:`)
 
 // DHEX AES encrypt / decrypt functions
-func encrypt(data []byte, key []byte) []byte {
-	block, err := aes.NewCipher(key[:32])
+func encrypt(secretMessage string, key rsa.PublicKey) string {
+	label := []byte("OAEP Encrypted")
+	rng := rand.Reader
+	ciphertext, err := rsa.EncryptOAEP(sha256.New(), rng, &key, []byte(secretMessage), label)
 	if err != nil {
-		fmt.Print(err.Error())
+		panic(err)
 	}
-	gcm, err := cipher.NewGCM(block)
-	nonce := make([]byte, gcm.NonceSize())
-	if _, err = io.ReadFull(rand.Reader, nonce); err != nil {
-		panic(err.Error())
-	}
-	ciphertext := gcm.Seal(nonce, nonce, data, nil)
-	return ciphertext
+	return base64.StdEncoding.EncodeToString(ciphertext)
 }
 
 func main() {
@@ -64,30 +59,15 @@ func main() {
 	}
 
 	fc := goframe.NewLengthFieldBasedFrameConn(encoderConfig, decoderConfig, conn)
-	g, _ := dhkx.GetGroup(0)
-	priv, _ := g.GeneratePrivateKey(nil)
-	pub := priv.Bytes()
-	keysend := []byte{0x000C}
-	for i := range pub{
-		keysend = append(keysend, pub[i])
-	}
-	fmt.Println("Authenticating...")
-	err = fc.WriteFrame(keysend)
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("Key sent...")
 	data, err := fc.ReadFrame()
-	if err != nil {
-		panic(err)
-	}
-	k, _ := g.ComputeKey(dhkx.NewPublicKey(data), priv)
+	var key rsa.PublicKey
+	err = json.Unmarshal(data, &key)
+	fmt.Println("Key Recieved")
 	fmt.Print("Enter Message: ")
 	message, _ := reader.ReadString('\n')
 	message = strings.TrimSuffix(message, "\n")
-	data = []byte(message)
-	finaldata := encrypt(data, k.Bytes())
-	err = fc.WriteFrame(finaldata)
+	data = []byte(encrypt(message, key))
+	err = fc.WriteFrame(data)
 	if err != nil {
 		panic(err)
 	}
