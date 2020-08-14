@@ -66,6 +66,7 @@ func main() {
 	fmt.Print("Enter Message: ")
 	message, _ := reader.ReadString('\n')
 	message = strings.TrimSuffix(message, "\n")
+	message = strings.TrimSuffix(message, "\r")
 	data = []byte(encrypt(message, key))
 	err = fc.WriteFrame(data)
 	if err != nil {
