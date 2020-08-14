@@ -64,15 +64,17 @@ func main() {
 	var key rsa.PublicKey
 	err = json.Unmarshal(data, &key)
 	fmt.Println("Key Recieved")
-	fmt.Print("Enter Message: ")
-	message, _ := reader.ReadString('\n')
-	message = strings.TrimSuffix(message, "\n")
-	message = strings.TrimSuffix(message, "\r")
-	data = []byte(encrypt(message, key))
-	err = fc.WriteFrame(data)
-	if err != nil {
-		panic(err)
+	for {
+		fmt.Print("Enter Message: ")
+		message, _ := reader.ReadString('\n')
+		message = strings.TrimSuffix(message, "\n")
+		message = strings.TrimSuffix(message, "\r")
+		data = []byte(encrypt(message, key))
+		err = fc.WriteFrame(data)
+		if err != nil {
+			panic(err)
+		}
+		fmt.Println("Message Sent")
 	}
-	fmt.Println("Message Sent")
 
 }
