@@ -35,6 +35,7 @@ func main() {
 	fmt.Print("Enter ip address: ")
 	ip, _ := reader.ReadString('\n')
 	ip = strings.TrimSuffix(ip, "\n")
+	ip = strings.TrimSuffix(ip, "\r")
 	address := ip + ":9000"
 	conn, err := net.Dial("tcp", address)
 	if err != nil {
