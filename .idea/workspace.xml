@@ -19,7 +19,10 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7ecf1acd-fdbe-44af-b6c5-5bd3862a7d79" name="Default Changelist" comment="rebuilt after parsing fix" />
+    <list default="true" id="7ecf1acd-fdbe-44af-b6c5-5bd3862a7d79" name="Default Changelist" comment="Allowing for multiple messages">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RandomClient.go" beforeDir="false" afterPath="$PROJECT_DIR$/RandomClient.go" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -47,6 +50,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="go.import.settings.migrated" value="true" />
+    <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -54,6 +58,7 @@
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="settings.editor.selected.configurable" value="go.vgo" />
   </component>
   <component name="RunManager">
     <configuration name="go build RandomClient.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
@@ -100,7 +105,14 @@
       <option name="project" value="LOCAL" />
       <updated>1597440184458</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Allowing for multiple messages">
+      <created>1597440509400</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1597440509400</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -116,49 +128,59 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="fixed parsing error" />
     <MESSAGE value="rebuilt after parsing fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="rebuilt after parsing fix" />
+    <MESSAGE value="Allowing for multiple messages" />
+    <option name="LAST_COMMIT_MESSAGE" value="Allowing for multiple messages" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1493" height="210" key="GridCell.Tab.0.bottom" timestamp="1597440067364">
+    <state x="561" y="246" key="#Go_Modules" timestamp="1597456489980">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1597440067364" />
-    <state width="1493" height="210" key="GridCell.Tab.0.center" timestamp="1597440067364">
+    <state x="561" y="246" key="#Go_Modules/0.0.1536.824@0.0.1536.824" timestamp="1597456489980" />
+    <state width="1493" height="210" key="GridCell.Tab.0.bottom" timestamp="1597457744571">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1597440067364" />
-    <state width="1493" height="210" key="GridCell.Tab.0.left" timestamp="1597440067364">
+    <state width="1493" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1597457744571" />
+    <state width="1493" height="210" key="GridCell.Tab.0.center" timestamp="1597457744571">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1597440067364" />
-    <state width="1493" height="210" key="GridCell.Tab.0.right" timestamp="1597440067364">
+    <state width="1493" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1597457744571" />
+    <state width="1493" height="210" key="GridCell.Tab.0.left" timestamp="1597457744571">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1597440067364" />
-    <state width="1493" height="261" key="GridCell.Tab.1.bottom" timestamp="1597372949174">
+    <state width="1493" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1597457744571" />
+    <state width="1493" height="210" key="GridCell.Tab.0.right" timestamp="1597457744571">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="261" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1597372949174" />
-    <state width="1493" height="261" key="GridCell.Tab.1.center" timestamp="1597372949174">
+    <state width="1493" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1597457744571" />
+    <state width="1493" height="261" key="GridCell.Tab.1.bottom" timestamp="1597443979372">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="261" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1597372949174" />
-    <state width="1493" height="261" key="GridCell.Tab.1.left" timestamp="1597372949174">
+    <state width="1493" height="261" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1597443979372" />
+    <state width="1493" height="261" key="GridCell.Tab.1.center" timestamp="1597443979372">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="261" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1597372949174" />
-    <state width="1493" height="261" key="GridCell.Tab.1.right" timestamp="1597372949174">
+    <state width="1493" height="261" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1597443979372" />
+    <state width="1493" height="261" key="GridCell.Tab.1.left" timestamp="1597443979372">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="261" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1597372949174" />
-    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1597440188700">
+    <state width="1493" height="261" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1597443979372" />
+    <state width="1493" height="261" key="GridCell.Tab.1.right" timestamp="1597443979372">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1597440188700" />
+    <state width="1493" height="261" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1597443979372" />
+    <state x="277" y="57" key="SettingsEditor" timestamp="1597456806981">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="277" y="57" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1597456806981" />
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1597440513159">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1597440513159" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

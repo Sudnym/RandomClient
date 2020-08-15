@@ -1,23 +1,20 @@
 package main
 
 import (
-	"bufio"
 	"crypto/rand"
 	"crypto/rsa"
 	"crypto/sha256"
 	"encoding/base64"
 	"encoding/binary"
 	"encoding/json"
-	"fmt"
+	"github.com/smallnest/goframe"
+	"github.com/therecipe/qt/widgets"
 	"net"
 	"os"
-	"regexp"
-	"strings"
-
-	"github.com/smallnest/goframe"
 )
 
-var delimiter = regexp.MustCompile(`:`)
+var conn net.Conn
+var err error
 
 // DHEX AES encrypt / decrypt functions
 func encrypt(secretMessage string, key rsa.PublicKey) string {
@@ -31,50 +28,78 @@ func encrypt(secretMessage string, key rsa.PublicKey) string {
 }
 
 func main() {
-	reader := bufio.NewReader(os.Stdin)
-	fmt.Print("Enter ip address: ")
-	ip, _ := reader.ReadString('\n')
-	ip = strings.TrimSuffix(ip, "\n")
-	ip = strings.TrimSuffix(ip, "\r")
-	address := ip + ":9000"
-	conn, err := net.Dial("tcp", address)
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("Connected")
 	defer conn.Close()
+	// needs to be called once before you can start using the QWidgets
+	app := widgets.NewQApplication(len(os.Args), os.Args)
 
-	encoderConfig := goframe.EncoderConfig{
-		ByteOrder:                       binary.BigEndian,
-		LengthFieldLength:               4,
-		LengthAdjustment:                0,
-		LengthIncludesLengthFieldLength: false,
-	}
+	// create a window
+	// with a minimum size of 250*200
+	// and sets the title to "Hello Widgets Example"
+	window := widgets.NewQMainWindow(nil, 0)
+	window.SetMinimumSize2(250, 200)
+	window.SetWindowTitle("RandomClient")
 
-	decoderConfig := goframe.DecoderConfig{
-		ByteOrder:           binary.BigEndian,
-		LengthFieldOffset:   0,
-		LengthFieldLength:   4,
-		LengthAdjustment:    0,
-		InitialBytesToStrip: 4,
-	}
+	// create a regular widget
+	// give it a QVBoxLayout
+	// and make it the central widget of the window
+	widget := widgets.NewQWidget(nil, 0)
+	widget.SetLayout(widgets.NewQVBoxLayout())
+	window.SetCentralWidget(widget)
 
-	fc := goframe.NewLengthFieldBasedFrameConn(encoderConfig, decoderConfig, conn)
-	data, err := fc.ReadFrame()
-	var key rsa.PublicKey
-	err = json.Unmarshal(data, &key)
-	fmt.Println("Key Recieved")
-	for {
-		fmt.Print("Enter Message: ")
-		message, _ := reader.ReadString('\n')
-		message = strings.TrimSuffix(message, "\n")
-		message = strings.TrimSuffix(message, "\r")
-		data = []byte(encrypt(message, key))
-		err = fc.WriteFrame(data)
+	// create a line edit
+	// with a custom placeholder text
+	// and add it to the central widgets layout
+	input := widgets.NewQLineEdit(nil)
+	input.SetPlaceholderText("Enter IP...")
+	widget.Layout().AddWidget(input)
+
+	// create a button
+	// connect the clicked signal
+	// and add it to the central widgets layout
+	button := widgets.NewQPushButton2("Connect", nil)
+	button.ConnectClicked(func(bool) {
+		ip := input.Text()
+		ip += ":9000"
+		conn, err = net.Dial("tcp", ip)
+		input.SetPlaceholderText("Send a message...")
+		button.SetText("Send")
+		encoderConfig := goframe.EncoderConfig{
+			ByteOrder:                       binary.BigEndian,
+			LengthFieldLength:               4,
+			LengthAdjustment:                0,
+			LengthIncludesLengthFieldLength: false,
+		}
+
+		decoderConfig := goframe.DecoderConfig{
+			ByteOrder:           binary.BigEndian,
+			LengthFieldOffset:   0,
+			LengthFieldLength:   4,
+			LengthAdjustment:    0,
+			InitialBytesToStrip: 4,
+		}
+		fc := goframe.NewLengthFieldBasedFrameConn(encoderConfig, decoderConfig, conn)
+		data, err := fc.ReadFrame()
 		if err != nil {
 			panic(err)
 		}
-		fmt.Println("Message Sent")
-	}
+		var key rsa.PublicKey
+		err = json.Unmarshal(data, &key)
+		button.ConnectClicked(func(bool) {
+			message := input.Text()
+			data = []byte(encrypt(message, key))
+			err = fc.WriteFrame(data)
+			if err != nil {
+				panic(err)
+			}
+		})
+	})
+	widget.Layout().AddWidget(button)
 
+	// make the window visible
+	window.Show()
+
+	// start the main Qt event loop
+	// and block until app.Exit() is called
+	// or the window is closed by the user
+	app.Exec()
 }
